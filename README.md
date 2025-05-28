@@ -1,2 +1,2 @@
 # triton-eks
-Test environment to test different models and chips using Triton on EKS
+Test environment to benchmark different models and chips using Triton on EKS
