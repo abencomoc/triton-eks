@@ -1,5 +1,9 @@
+# PyTorch models
+*.pt
+
 # Local .terraform directories
 .terraform/
+*.terraform*
 
 # .tfstate files
 *.tfstate

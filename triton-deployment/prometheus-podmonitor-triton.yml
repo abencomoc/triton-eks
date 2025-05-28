@@ -1,0 +1,23 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PodMonitor
+metadata:
+  name: triton-metrics
+  namespace: triton-ns
+  labels:
+      release: kube-prometheus-stack
+spec:
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - triton-cpu
+          - triton-gpu
+          - triton-inf
+  namespaceSelector:
+      matchNames:
+        - repo-triton
+  podMetricsEndpoints:
+    - port: metrics-triton
+      interval: 10s
+      path: /metrics

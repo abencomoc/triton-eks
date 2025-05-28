@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-gpu-g-nvidia
+  labels:
+    app: triton-gpu-g-nvidia
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-gpu-g-nvidia
+  template:
+    metadata:
+      labels:
+        app: triton-gpu-g-nvidia
+    spec:
+      nodeSelector:
+        NodePool: "gpu-g-nvidia"
+      serviceAccountName: triton-sa
+      containers:
+      - name: triton-gpu-g-nvidia
+        ports:
+        - containerPort: 8000
+          name: http-triton
+        - containerPort: 8001
+          name: grpc-triton
+        - containerPort: 8002
+          name: metrics-triton
+        image: "nvcr.io/nvidia/tritonserver:25.04-py3"
+        command: ["/bin/sh", "-c"]
+        args: ["/opt/tritonserver/bin/tritonserver --model-repository=s3://model-repository-123/models --strict-model-config=false --repository-poll-secs=5 --log-verbose=3"]
+        resources:
+          limits:
+            nvidia.com/gpu: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-gpu-g-nvidia-service
+  labels:
+    app: triton-gpu-g-nvidia
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8002"
+spec:
+  type: ClusterIP
+  selector:
+    app: triton-gpu-g-nvidia  # Matches the labels in your deployment
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http-triton
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: grpc-triton
+    - port: 8002
+      targetPort: 8002
+      protocol: TCP
+      name: metrics-triton

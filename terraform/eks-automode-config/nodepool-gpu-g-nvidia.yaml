@@ -1,0 +1,30 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: gpu-g-nvidia
+spec:
+  template:
+    metadata:
+      labels:
+        NodePool: gpu-g-nvidia
+    spec:
+      taints:
+        - key: "nvidia.com/gpu"
+          value: "true"
+          effect: "NoSchedule"
+      requirements:
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "node.kubernetes.io/instance-type"
+          operator: In
+          values: ["g6.2xlarge"]
+      nodeClassRef:
+        name: basic
+        group: eks.amazonaws.com
+        kind: NodeClass
+  limits:
+    cpu: 1000

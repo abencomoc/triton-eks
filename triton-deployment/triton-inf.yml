@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-inf
+  labels:
+    app: triton-inf
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-inf
+  template:
+    metadata:
+      labels:
+        app: triton-inf
+    spec:
+      nodeSelector:
+        NodePool: "inferentia"
+      serviceAccountName: triton-sa
+      containers:
+      - name: triton-inf
+        ports:
+        - containerPort: 8000
+          name: http-triton
+        - containerPort: 8001
+          name: grpc-triton
+        - containerPort: 8002
+          name: metrics-triton
+        image: "nvcr.io/nvidia/tritonserver:25.04-py3"
+        command: ["/bin/sh", "-c"]
+        args: ["/opt/tritonserver/bin/tritonserver --model-repository=s3://model-repository-123/models --strict-model-config=false --repository-poll-secs=5 --log-verbose=3"]
+        resources:
+          limits:
+            aws.amazon.com/neuron: 1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-inf-service
+  labels:
+    app: triton-inf
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8002"
+spec:
+  type: ClusterIP
+  selector:
+    app: triton-inf  # Matches the labels in your deployment
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http-triton
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: grpc-triton
+    - port: 8002
+      targetPort: 8002
+      protocol: TCP
+      name: metrics-triton

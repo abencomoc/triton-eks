@@ -1,0 +1,42 @@
+kubecostToken: ${kubecostToken}
+
+service:
+  type: ClusterIP
+  port: 9090
+  targetPort: 9090
+  labels: {}
+  annotations: {}
+  sessionAffinity:
+    enabled: false # Makes sure that connections from a client are passed to the same Pod each time, when set to `true`. You should set it when you enabled authentication through OIDC or SAML integration.
+    timeoutSeconds: 10800
+
+kubecostFrontend:
+  image: public.ecr.aws/kubecost/frontend
+
+kubecostModel:
+  image: public.ecr.aws/kubecost/cost-model
+
+forecasting:
+  image:
+    repository: public.ecr.aws/kubecost/kubecost-modeling
+
+networkCosts:
+  image:
+    repository: public.ecr.aws/kubecost/kubecost-network-costs
+
+clusterController:
+  image:
+    repository: public.ecr.aws/kubecost/cluster-controller
+
+prometheus:
+  server:
+    image:
+      repository: public.ecr.aws/kubecost/prometheus
+
+  configmapReload:
+    prometheus:
+      image:
+        repository: public.ecr.aws/kubecost/prometheus-config-reloader
+
+reporting:
+  productAnalytics: false

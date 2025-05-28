@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: triton-cpu-x86-amd
+  labels:
+    app: triton-cpu-x86-amd
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: triton-cpu-x86-amd
+  template:
+    metadata:
+      labels:
+        app: triton-cpu-x86-amd
+    spec:
+      nodeSelector:
+        NodePool: "cpu-x86-amd"
+      serviceAccountName: triton-sa
+      containers:
+      - name: triton-cpu-x86-amd
+        ports:
+        - containerPort: 8000
+          name: http-triton
+        - containerPort: 8001
+          name: grpc-triton
+        - containerPort: 8002
+          name: metrics-triton
+        image: "nvcr.io/nvidia/tritonserver:25.04-py3"
+        command: ["/bin/sh", "-c"]
+        args: ["/opt/tritonserver/bin/tritonserver --model-repository=s3://model-repository-123/models --allow-gpu-metrics=false --strict-model-config=false --repository-poll-secs=5 --log-verbose=3"]
+        resources: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: triton-cpu-x86-amd-service
+  labels:
+    app: triton-cpu-x86-amd
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "8002"
+spec:
+  type: ClusterIP
+  selector:
+    app: triton-cpu-x86-amd  # Matches the labels in your deployment
+  ports:
+    - port: 8000
+      targetPort: 8000
+      protocol: TCP
+      name: http-triton
+    - port: 8001
+      targetPort: 8001
+      protocol: TCP
+      name: grpc-triton
+    - port: 8002
+      targetPort: 8002
+      protocol: TCP
+      name: metrics-triton

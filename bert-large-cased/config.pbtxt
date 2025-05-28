@@ -1,0 +1,40 @@
+name: "bert-large-cased"
+platform: "pytorch_libtorch"
+max_batch_size: 8
+
+dynamic_batching {
+  preferred_batch_size: 8
+  max_queue_delay_microseconds: 100
+}
+
+input [
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]  # sequence length
+  },
+  {
+    name: "attention_mask"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  },
+  {
+    name: "token_type_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+  }
+]
+
+output [
+  {
+    name: "logits"
+    data_type: TYPE_FP32
+    dims: [ -1 ]  # number of classes or sequence length, depending on model head
+  }
+]
+
+instance_group [
+  {
+    count: 1
+  }
+]
