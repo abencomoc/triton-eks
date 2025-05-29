@@ -1,0 +1,326 @@
+name: "bert-large-uncased"
+platform: "pytorch_libtorch"
+max_batch_size: 1
+
+dynamic_batching {}
+
+instance_group [
+  {
+    count: 1
+  }
+]
+
+Request concurrency: 25
+  Client: 
+    Request count: 1443
+    Throughput: 20.0391 infer/sec
+    Avg latency: 1245326 usec (standard deviation 19051 usec)
+    p50 latency: 1248116 usec
+    p90 latency: 1250781 usec
+    p95 latency: 1251419 usec
+    p99 latency: 1252485 usec
+    Avg HTTP time: 1245321 usec (send/recv 176 usec + response wait 1245145 usec)
+  Server: 
+    Inference count: 1443
+    Execution count: 1443
+    Successful request count: 1443
+    Avg request latency: 1244735 usec (overhead 36 usec + queue 1194885 usec + compute input 73 usec + compute infer 49704 usec + compute output 36 usec)
+Inferences/Second vs. Client Average Batch Latency
+Concurrency: 1, throughput: 21.6208 infer/sec, latency 46202 usec
+Concurrency: 4, throughput: 21.0806 infer/sec, latency 189511 usec
+Concurrency: 7, throughput: 20.6364 infer/sec, latency 338549 usec
+Concurrency: 10, throughput: 20.0255 infer/sec, latency 498634 usec
+Concurrency: 13, throughput: 20.0301 infer/sec, latency 647760 usec
+Concurrency: 16, throughput: 20.0808 infer/sec, latency 795146 usec
+Concurrency: 19, throughput: 20.1088 infer/sec, latency 943033 usec
+Concurrency: 22, throughput: 20.1085 infer/sec, latency 1092054 usec
+Concurrency: 25, throughput: 20.0391 infer/sec, latency 1245326 usec
+
+-----------------------------------------------------------------------
+
+name: "bert-large-uncased"
+platform: "pytorch_libtorch"
+max_batch_size: 8
+
+dynamic_batching {
+  preferred_batch_size: 8
+  max_queue_delay_microseconds: 100
+}
+
+instance_group [
+  {
+    count: 1
+  }
+]
+
+Request concurrency: 25
+  Client: 
+    Request count: 1625
+    Throughput: 22.5488 infer/sec
+    Avg latency: 1109212 usec (standard deviation 23056 usec)
+    p50 latency: 1111351 usec
+    p90 latency: 1113513 usec
+    p95 latency: 1114237 usec
+    p99 latency: 1115256 usec
+    Avg HTTP time: 1109206 usec (send/recv 201 usec + response wait 1109005 usec)
+  Server: 
+    Inference count: 1625
+    Execution count: 260
+    Successful request count: 1625
+    Avg request latency: 1108296 usec (overhead 202 usec + queue 787331 usec + compute input 123 usec + compute infer 320581 usec + compute output 58 usec)
+Inferences/Second vs. Client Average Batch Latency
+Concurrency: 1, throughput: 21.7041 infer/sec, latency 46028 usec
+Concurrency: 4, throughput: 21.3447 infer/sec, latency 187129 usec
+Concurrency: 7, throughput: 21.6085 infer/sec, latency 323076 usec
+Concurrency: 10, throughput: 20.9004 infer/sec, latency 477527 usec
+Concurrency: 13, throughput: 22.0837 infer/sec, latency 588422 usec
+Concurrency: 16, throughput: 22.6639 infer/sec, latency 704510 usec
+Concurrency: 19, throughput: 22.15 infer/sec, latency 858069 usec
+Concurrency: 22, throughput: 22.2749 infer/sec, latency 982932 usec
+Concurrency: 25, throughput: 22.5488 infer/sec, latency 1109212 usec
+
+-----------------------------------------------------------------------
+
+name: "bert-large-uncased"
+platform: "pytorch_libtorch"
+max_batch_size: 128
+
+dynamic_batching {
+  max_queue_delay_microseconds: 100000
+}
+
+instance_group [
+  {
+    count: 1
+  }
+]
+
+Request concurrency: 5
+  Client: 
+    Request count: 1219
+    Throughput: 16.9283 infer/sec
+    Avg latency: 295242 usec (standard deviation 3784 usec)
+    p50 latency: 295474 usec
+    p90 latency: 297239 usec
+    p95 latency: 297630 usec
+    p99 latency: 298621 usec
+    Avg HTTP time: 295236 usec (send/recv 91 usec + response wait 295145 usec)
+  Server: 
+    Inference count: 1219
+    Execution count: 244
+    Successful request count: 1219
+    Avg request latency: 294487 usec (overhead 128 usec + queue 99877 usec + compute input 126 usec + compute infer 194312 usec + compute output 43 usec)
+Inferences/Second vs. Client Average Batch Latency
+Concurrency: 1, throughput: 7.36026 infer/sec, latency 135643 usec
+Concurrency: 2, throughput: 11.8458 infer/sec, latency 168765 usec
+Concurrency: 3, throughput: 13.79 infer/sec, latency 217288 usec
+Concurrency: 4, throughput: 15.9702 infer/sec, latency 250086 usec
+Concurrency: 5, throughput: 16.9283 infer/sec, latency 295242 usec
+
+-----------------------------------------------------------------------
+
+name: "bert-large-uncased"
+platform: "pytorch_libtorch"
+max_batch_size: 128
+
+dynamic_batching {
+  preferred_batch_size: [16, 32, 64, 128]
+  max_queue_delay_microseconds: 10000
+}
+
+instance_group [
+  {
+    count: 1
+  }
+]
+
+Request concurrency: 51
+  Client: 
+    Request count: 877
+    Throughput: 24.3538 infer/sec
+    Avg latency: 2129615 usec (standard deviation 94003 usec)
+    p50 latency: 2205151 usec
+    p90 latency: 2323459 usec
+    p95 latency: 2401007 usec
+    p99 latency: 2411953 usec
+    Avg HTTP time: 2129611 usec (send/recv 75 usec + response wait 2129536 usec)
+  Server: 
+    Inference count: 877
+    Execution count: 33
+    Successful request count: 877
+    Avg request latency: 2127936 usec (overhead 802 usec + queue 1006071 usec + compute input 275 usec + compute infer 1120668 usec + compute output 119 usec)
+Request concurrency: 61
+Inferences/Second vs. Client Average Batch Latency
+Concurrency: 1, throughput: 19.5227 infer/sec, latency 51200 usec
+Concurrency: 11, throughput: 23.1161 infer/sec, latency 472382 usec
+Concurrency: 21, throughput: 24.4939 infer/sec, latency 852414 usec
+Concurrency: 31, throughput: 23.3607 infer/sec, latency 1304559 usec
+Concurrency: 41, throughput: 24.4937 infer/sec, latency 1658776 usec
+Concurrency: 51, throughput: 24.3538 infer/sec, latency 2129615 usec
+Failed to obtain stable measurement within 10 measurement windows for concurrency 61. Please try to increase the --measurement-interval.
+
+####################################
+Partial analysis
+
+Let me explain each optimization suggestion in detail based on your GPU results:
+
+1. Increase model instances on the same GPU
+instance_group [
+  {
+    count: 2
+    kind: KIND_GPU
+    gpus: [0]
+  }
+]
+
+Copy
+
+Insert at cursor
+Explanation: Your logs show 100% GPU utilization but only 25% memory usage. This suggests the GPU compute units are saturated, but there's memory headroom. By creating multiple model instances on the same GPU, you can potentially:
+
+Enable concurrent processing of multiple requests
+
+Better utilize the GPU's parallel processing capabilities
+
+Improve throughput when the model isn't fully utilizing all CUDA cores
+
+Allow one instance to process while another is loading data
+
+This works because modern GPUs have thousands of CUDA cores that can run multiple workloads simultaneously if they fit in memory.
+
+2. Enable TensorRT optimization
+optimization {
+  execution_accelerators {
+    gpu_execution_accelerator {
+      name: "tensorrt"
+      parameters { key: "precision_mode" value: "FP16" }
+    }
+  }
+}
+
+Copy
+
+Insert at cursor
+Explanation: TensorRT is NVIDIA's deep learning inference optimizer that can:
+
+Convert your PyTorch model to an optimized runtime
+
+Apply kernel fusion to combine operations
+
+Use FP16 precision to nearly double computational throughput
+
+Optimize memory access patterns
+
+Apply layer-specific optimizations for transformer models
+
+For BERT models specifically, TensorRT can provide 2-5x speedup by optimizing the attention mechanism and other operations. The FP16 precision typically maintains accuracy while significantly improving performance.
+
+3. Adjust dynamic batching parameters
+dynamic_batching {
+  preferred_batch_size: [4, 8, 16]
+  max_queue_delay_microseconds: 5000
+}
+
+Copy
+
+Insert at cursor
+Explanation: Your logs show that batching helps (execution count vs inference count), but the current settings may not be optimal:
+
+Smaller preferred_batch_size values (4, 8, 16) may work better than larger ones based on your results
+
+A moderate max_queue_delay_microseconds of 5000 (5ms) balances latency and throughput
+
+This configuration tells Triton to preferentially form these batch sizes
+
+The delay value is shorter than your current 100000μs setting, which may be causing excessive queuing
+
+Your logs show that a batch size of 8 with a short delay (100μs) performed better than larger batches with longer delays.
+
+4. Set input/output memory type
+input [
+  {
+    name: "input_ids"
+    data_type: TYPE_INT64
+    dims: [ -1 ]
+    io_type: IO_TYPE_GPU
+  }
+]
+
+Copy
+
+Insert at cursor
+Explanation: By default, Triton may copy inputs/outputs between CPU and GPU memory. Setting io_type: IO_TYPE_GPU:
+
+Keeps data on the GPU throughout processing
+
+Eliminates costly CPU-GPU transfers
+
+Reduces the load on the single CPU core that's showing 100% utilization
+
+Particularly beneficial for BERT which has multiple input tensors
+
+This can significantly reduce overhead, especially when your CPU appears to be a bottleneck (single core at 100%).
+
+5. Consider sequence batching
+sequence_batching {
+  max_sequence_idle_microseconds: 5000
+}
+
+Copy
+
+Insert at cursor
+Explanation: If your workload involves processing sequences of related requests (like conversational AI):
+
+Sequence batching maintains state between related requests
+
+Reduces overhead for stateful models
+
+Can improve performance for transformer models like BERT that process token sequences
+
+The idle timeout determines how long to keep a sequence context alive
+
+This is only beneficial if your application sends sequences of related requests rather than independent ones.
+
+Based on your logs, the most promising approaches are:
+
+Multiple model instances (count: 2)
+
+TensorRT optimization with FP16
+
+Refined batching with smaller preferred sizes
+
+These changes directly address the bottlenecks shown in your logs: 100% GPU compute utilization and single-core CPU bottleneck.
+
+######################################
+
+
+name: "bert-large-uncased"
+platform: "pytorch_libtorch"
+max_batch_size: 16
+
+dynamic_batching {
+  preferred_batch_size: [4, 8, 16]
+  max_queue_delay_microseconds: 5000
+}
+
+instance_group [
+  {
+    count: 1
+  }
+]
+
+Request concurrency: 31
+  Client: 
+    Request count: 859
+    Throughput: 23.8551 infer/sec
+    Avg latency: 1292271 usec (standard deviation 59206 usec)
+    p50 latency: 1317166 usec
+    p90 latency: 1675143 usec
+    p95 latency: 1690958 usec
+    p99 latency: 1695424 usec
+    Avg HTTP time: 1292266 usec (send/recv 97 usec + response wait 1292169 usec)
+  Server: 
+    Inference count: 859
+    Execution count: 73
+    Successful request count: 859
+    Avg request latency: 1291253 usec (overhead 407 usec + queue 738067 usec + compute input 223 usec + compute infer 552461 usec + compute output 94 usec)

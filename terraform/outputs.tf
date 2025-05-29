@@ -3,7 +3,7 @@ output "configure_kubectl" {
   value       = "aws eks --region ${local.region} update-kubeconfig --name ${module.eks.cluster_name}"
 }
 
-output "grafana_secret_name" {
-  description = "Grafana password secret name"
-  value       = aws_secretsmanager_secret.grafana.name
+output "grafana_secret_command" {
+  description = "AWS CLI command to retrieve the Grafana admin password"
+  value       = "aws secretsmanager get-secret-value --secret-id ${aws_secretsmanager_secret.grafana.name} --query 'SecretString' --output text"
 }

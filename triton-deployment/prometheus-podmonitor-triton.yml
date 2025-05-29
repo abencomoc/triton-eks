@@ -11,8 +11,10 @@ spec:
       - key: app
         operator: In
         values:
-          - triton-cpu
-          - triton-gpu
+          - triton-cpu-x86-intel
+          - triton-cpu-x86-amd
+          - triton-cpu-arm-graviton 
+          - triton-gpu-g-nvidia
           - triton-inf
   namespaceSelector:
       matchNames:

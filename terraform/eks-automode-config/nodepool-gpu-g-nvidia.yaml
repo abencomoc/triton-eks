@@ -12,6 +12,9 @@ spec:
         - key: "nvidia.com/gpu"
           value: "true"
           effect: "NoSchedule"
+        - key: "NodePool"
+          value: "gpu-g-nvidia"
+          effect: "NoSchedule"
       requirements:
         - key: "kubernetes.io/arch"
           operator: In

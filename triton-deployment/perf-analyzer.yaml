@@ -2,17 +2,18 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: triton-perf-analyzer
-  name: triton-perf-analyzer
+    app: perf-analyzer
+  name: perf-analyzer
 spec:
+  replicas: 1
   selector:
     matchLabels:
-      app: triton-perf-analyzer
+      app: perf-analyzer
   template:
     metadata:
       creationTimestamp: null
       labels:
-        app: triton-perf-analyzer
+        app: perf-analyzer
     spec:
       nodeSelector:
         NodePool: "basic"
@@ -22,6 +23,6 @@ spec:
         - 30d
         image: nvcr.io/nvidia/tritonserver:25.04-py3-sdk
         imagePullPolicy: IfNotPresent
-        name: tritonserver
+        name: perf-analyzer
         resources: {}
 

@@ -16,6 +16,15 @@ spec:
     spec:
       nodeSelector:
         NodePool: "inferentia"
+      tolerations:
+      - key: "NodePool"
+        operator: "Equal"
+        value: "inferentia"
+        effect: "NoSchedule"
+      - key: "aws.amazon.com/neuron"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
       serviceAccountName: triton-sa
       containers:
       - name: triton-inf
@@ -28,8 +37,11 @@ spec:
           name: metrics-triton
         image: "nvcr.io/nvidia/tritonserver:25.04-py3"
         command: ["/bin/sh", "-c"]
-        args: ["/opt/tritonserver/bin/tritonserver --model-repository=s3://model-repository-123/models --strict-model-config=false --repository-poll-secs=5 --log-verbose=3"]
+        args: ["/opt/tritonserver/bin/tritonserver --model-repository=s3://model-repository-123/models --strict-model-config=false --repository-poll-secs=5 --log-verbose=3 --model-control-mode=explicit --load-model=bert-large-uncased"]
         resources:
+          requests:
+            cpu: "6000m"
+            memory: "28000Mi"
           limits:
             aws.amazon.com/neuron: 1
 ---
